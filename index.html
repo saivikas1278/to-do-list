@@ -6,68 +6,486 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Simple To-Do App</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
-  body {
-    background: linear-gradient(135deg, #91949c, #010b17);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #292929;
+  * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '🌸 ✨ 💕 🦋 🌈 ⭐ 🌸 ✨ 💕 🦋 🌈 ⭐';
+    position: fixed;
+    top: -50px;
+    left: 0;
+    width: 200%;
+    height: 100px;
+    font-size: 2rem;
+    opacity: 0.3;
+    animation: floatingEmojis 20s linear infinite;
+    pointer-events: none;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  body::after {
+    content: '💖 🌟 🦄 🍭 🌺 💫 💖 🌟 🦄 🍭 🌺 💫';
+    position: fixed;
+    bottom: -50px;
+    right: 0;
+    width: 200%;
+    height: 100px;
+    font-size: 1.8rem;
+    opacity: 0.2;
+    animation: floatingEmojis 25s linear infinite reverse;
+    pointer-events: none;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  @keyframes floatingEmojis {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(0%); }
+  }
+
+  .floating-shapes {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .shape {
+    position: absolute;
+    font-size: 2rem;
+    animation: cuteFloat 4s ease-in-out infinite;
+  }
+
+  .shape:nth-child(1) { 
+    content: '🎀';
+    top: 15%; 
+    left: 10%; 
+    animation-delay: 0s;
+  }
+  .shape:nth-child(2) { 
+    content: '🌸';
+    top: 70%; 
+    left: 80%; 
+    animation-delay: 1s;
+  }
+  .shape:nth-child(3) { 
+    content: '💕';
+    top: 40%; 
+    left: 70%; 
+    animation-delay: 2s;
+  }
+
+  @keyframes cuteFloat {
+    0%, 100% { 
+      transform: translateY(0px) scale(1) rotate(0deg); 
+      opacity: 0.6;
+    }
+    25% { 
+      transform: translateY(-15px) scale(1.1) rotate(5deg); 
+      opacity: 0.8;
+    }
+    50% { 
+      transform: translateY(-25px) scale(1.2) rotate(0deg); 
+      opacity: 1;
+    }
+    75% { 
+      transform: translateY(-15px) scale(1.1) rotate(-5deg); 
+      opacity: 0.8;
+    }
   }
 
   .todo-container {
-    max-width: 600px;
-    margin: 60px auto;
-    padding: 30px;
-    background: #ffffff13;
-    border-radius: 16px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-    transition: transform 0.2s ease-in-out;
+    max-width: 550px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 25px;
+    box-shadow: 
+      0 25px 45px rgba(255, 105, 180, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    padding: 40px 35px;
+    backdrop-filter: blur(20px);
+    border: 3px solid rgba(255, 182, 193, 0.5);
+    position: relative;
+    z-index: 2;
+    animation: containerBounce 6s ease-in-out infinite;
   }
 
-  .todo-container:hover {
-    transform: scale(1.01);
+  @keyframes containerBounce {
+    0%, 100% { 
+      transform: scale(1) rotate(0deg);
+      box-shadow: 0 25px 45px rgba(255, 105, 180, 0.3);
+    }
+    50% { 
+      transform: scale(1.02) rotate(1deg);
+      box-shadow: 0 30px 60px rgba(255, 105, 180, 0.4);
+    }
+  }
+
+  h3 {
+    background: linear-gradient(135deg, #ff6b9d 0%, #ff8e8e 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    animation: titleWiggle 3s ease-in-out infinite;
+  }
+
+  @keyframes titleWiggle {
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    25% { transform: rotate(1deg) scale(1.05); }
+    50% { transform: rotate(0deg) scale(1.1); }
+    75% { transform: rotate(-1deg) scale(1.05); }
+  }
+
+  h3::after {
+    content: '💕';
+    position: absolute;
+    top: -10px;
+    right: -20px;
+    font-size: 1.2rem;
+    animation: heartBeat 2s ease-in-out infinite;
+  }
+
+  @keyframes heartBeat {
+    0%, 100% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.3); opacity: 1; }
+  }
+
+  .input-group {
+    margin-bottom: 25px;
+    box-shadow: 
+      0 10px 30px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+  }
+
+  #todo-input {
+    border: none;
+    padding: 18px 25px;
+    font-size: 1rem;
+    outline: none;
+    background: transparent;
+    color: #2c3e50;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+
+  #todo-input::placeholder {
+    color: rgba(44, 62, 80, 0.6);
+    font-style: italic;
+  }
+
+  #todo-input:focus {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.02);
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #ff6b9d 0%, #ff8e8e 100%);
+    border: none;
+    padding: 18px 30px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    color: white;
+    animation: buttonPulse 4s ease-in-out infinite;
+  }
+
+  @keyframes buttonPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  .btn-primary::before {
+    content: '✨';
+    position: absolute;
+    top: 50%;
+    left: -30px;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    animation: sparkleMove 3s ease-in-out infinite;
+    transition: left 0.5s;
+  }
+
+  @keyframes sparkleMove {
+    0% { left: -30px; opacity: 0; }
+    50% { opacity: 1; }
+    100% { left: calc(100% + 10px); opacity: 0; }
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-3px) scale(1.05) rotate(2deg);
+    box-shadow: 0 15px 35px rgba(255, 107, 157, 0.4);
+    background: linear-gradient(135deg, #ff8e8e 0%, #ff6b9d 100%);
+  }
+
+  .btn-primary:active {
+    transform: translateY(-1px) scale(1.02);
+  }
+
+  #todo-list {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 5px;
+  }
+
+  #todo-list::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  #todo-list::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+  }
+
+  #todo-list::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 10px;
   }
 
   .todo-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 14px 12px;
-    margin-bottom: 10px;
-    background: #f6faff;
-    border-radius: 10px;
-    border-left: 4px solid #4e82f7;
-    transition: background 0.3s ease;
+    padding: 18px 20px;
+    margin-bottom: 15px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    border-left: 4px solid transparent;
+    border-image: linear-gradient(135deg, #667eea, #764ba2) 1;
+    box-shadow: 
+      0 8px 25px rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: slideInUp 0.5s ease forwards;
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  @keyframes slideInUp {
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
   }
 
   .todo-item:hover {
-    background: #eaf1ff;
+    transform: translateX(10px) translateY(-5px);
+    box-shadow: 
+      0 15px 40px rgba(102, 126, 234, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.25);
+  }
+
+  .todo-item span {
+    flex: 1;
+    color: #2c3e50;
+    font-size: 1rem;
+    font-weight: 500;
+    word-break: break-word;
+    padding-right: 15px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  .todo-actions {
+    display: flex;
+    gap: 10px;
   }
 
   .todo-actions button {
-    margin-left: 8px;
-    padding: 6px 10px;
-    background-color: #4e82f7;
-    color: white;
     border: none;
-    border-radius: 6px;
+    padding: 10px 15px;
+    border-radius: 10px;
     cursor: pointer;
     font-size: 0.9rem;
-    transition: background-color 0.2s ease-in-out;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    position: relative;
+    overflow: hidden;
   }
 
-  .todo-actions button:hover {
-    background-color: #345fcb;
+  .todo-actions button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    transform: translate(-50%, -50%);
+  }
+
+  .todo-actions button:hover::before {
+    width: 100%;
+    height: 100%;
+  }
+
+  .btn-warning {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white !important;
+    border: none !important;
+  }
+
+  .btn-warning:hover {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 10px 25px rgba(245, 87, 108, 0.4);
+  }
+
+  .btn-danger {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    color: white !important;
+    border: none !important;
+  }
+
+  .btn-danger:hover {
+    transform: scale(1.1) rotate(-5deg);
+    box-shadow: 0 10px 25px rgba(250, 112, 154, 0.4);
+  }
+
+  .btn-success {
+    background: linear-gradient(135deg, #81fbb8 0%, #28c76f 100%);
+    color: white !important;
+    border: none !important;
+  }
+
+  .btn-success:hover {
+    transform: scale(1.1);
+    box-shadow: 0 10px 25px rgba(40, 199, 111, 0.4);
   }
 
   .edit-input {
-    width: 100%;
-    padding: 8px 10px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+    flex: 1;
+    padding: 12px 18px;
+    border: 2px solid transparent;
+    border-radius: 10px;
     font-size: 1rem;
-    margin-top: 5px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.9);
+    color: #2c3e50;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .edit-input:focus {
+    border-image: linear-gradient(135deg, #667eea, #764ba2) 1;
+    box-shadow: 
+      inset 0 2px 5px rgba(0, 0, 0, 0.1),
+      0 0 0 4px rgba(102, 126, 234, 0.2);
+    transform: scale(1.02);
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: rgba(255, 107, 157, 0.8);
+    animation: gentleSway 4s ease-in-out infinite;
+  }
+
+  @keyframes gentleSway {
+    0%, 100% { transform: translateX(0px) rotate(0deg); }
+    25% { transform: translateX(5px) rotate(1deg); }
+    50% { transform: translateX(0px) rotate(0deg); }
+    75% { transform: translateX(-5px) rotate(-1deg); }
+  }
+
+  .empty-state i {
+    font-size: 5rem;
+    margin-bottom: 20px;
+    opacity: 0.6;
+    background: linear-gradient(135deg, #ff6b9d 0%, #ff8e8e 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: iconDance 3s ease-in-out infinite;
+  }
+
+  @keyframes iconDance {
+    0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+    25% { transform: translateY(-10px) rotate(5deg) scale(1.1); }
+    50% { transform: translateY(-15px) rotate(0deg) scale(1.2); }
+    75% { transform: translateY(-10px) rotate(-5deg) scale(1.1); }
+  }
+
+  .empty-state p {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin: 0;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  @media (max-width: 576px) {
+    .todo-container {
+      padding: 25px 20px;
+    }
+
+    h3 {
+      font-size: 1.8rem;
+    }
+
+    .todo-actions button {
+      padding: 8px 12px;
+      font-size: 0.8rem;
+    }
+  }
+
+  .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.6);
+    transform: scale(0);
+    animation: ripple-animation 0.6s linear;
+    pointer-events: none;
+  }
+
+  @keyframes ripple-animation {
+    to {
+      transform: scale(4);
+      opacity: 0;
+    }
   }
 </style>
 
@@ -75,11 +493,19 @@
 
 <body>
 
+  <div class="floating-shapes">
+    <div class="shape">🎀</div>
+    <div class="shape">🌸</div>
+    <div class="shape">💕</div>
+  </div>
+
   <div class="todo-container">
-    <h3 class="text-center mb-4">To-Do List</h3>
+    <h3><i class="fas fa-tasks"></i> My Tasks</h3>
     <div class="input-group mb-3">
-      <input id="todo-input" type="text" class="form-control" placeholder="Enter a task" />
-      <button class="btn btn-primary" onclick="addTodo()">Add</button>
+      <input id="todo-input" type="text" class="form-control" placeholder="What amazing thing will you do today?" />
+      <button class="btn btn-primary" onclick="addTodo()">
+        <i class="fas fa-plus"></i> Add Task
+      </button>
     </div>
     <ul id="todo-list" class="list-unstyled"></ul>
   </div>
@@ -90,6 +516,17 @@
     function renderTodos() {
       const list = document.getElementById('todo-list');
       list.innerHTML = '';
+      
+      if (todos.length === 0) {
+        list.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-clipboard-list"></i>
+            <p>No tasks yet. Add one to get started!</p>
+          </div>
+        `;
+        return;
+      }
+
       todos.forEach((todo, index) => {
         const li = document.createElement('li');
         li.className = 'todo-item';
@@ -97,18 +534,26 @@
           li.innerHTML = `
             <input class="form-control edit-input" type="text" value="${todo.text}" onkeyup="updateTodo(event, ${index})" />
             <div class="todo-actions">
-              <button class="btn btn-success btn-sm" onclick="saveTodo(${index})">Save</button>
+              <button class="btn btn-success btn-sm" onclick="saveTodo(${index})">
+                <i class="fas fa-check"></i> Save
+              </button>
             </div>
           `;
         } else {
           li.innerHTML = `
             <span>${todo.text}</span>
             <div class="todo-actions">
-              <button class="btn btn-sm btn-warning" onclick="editTodo(${index})">Edit</button>
-              <button class="btn btn-sm btn-danger" onclick="deleteTodo(${index})">Delete</button>
+              <button class="btn btn-sm btn-warning" onclick="editTodo(${index})" title="Edit task">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn btn-sm btn-danger" onclick="deleteTodo(${index})" title="Delete task">
+                <i class="fas fa-trash"></i>
+              </button>
             </div>
           `;
         }
+        // Add staggered animation delay
+        li.style.animationDelay = `${index * 0.1}s`;
         list.appendChild(li);
       });
     }
@@ -136,6 +581,15 @@
     });
 }
 
+    function updateTodo(event, index) {
+      if (event.key === 'Enter') {
+        saveTodo(index);
+      } else if (event.key === 'Escape') {
+        todos[index].editing = false;
+        renderTodos();
+      }
+    }
+
     function deleteTodo(index) {
     const id = todos[index].id;
     fetch(`http://localhost:10000/items/${id}`, {
@@ -145,7 +599,49 @@
     function editTodo(index) {
       todos[index].editing = true;
       renderTodos();
+      // Focus on the input field
+      setTimeout(() => {
+        const input = document.querySelector('.edit-input');
+        if (input) {
+          input.focus();
+          input.select();
+        }
+      }, 100);
     }
+
+    // Add ripple effect to buttons
+    function createRipple(event) {
+      const button = event.currentTarget;
+      const circle = document.createElement('span');
+      const diameter = Math.max(button.clientWidth, button.clientHeight);
+      const radius = diameter / 2;
+
+      circle.style.width = circle.style.height = `${diameter}px`;
+      circle.style.left = `${event.clientX - button.offsetLeft - radius}px`;
+      circle.style.top = `${event.clientY - button.offsetTop - radius}px`;
+      circle.classList.add('ripple');
+
+      const ripple = button.getElementsByClassName('ripple')[0];
+      if (ripple) {
+        ripple.remove();
+      }
+
+      button.appendChild(circle);
+    }
+
+    // Add ripple effect to all buttons
+    document.addEventListener('click', function(e) {
+      if (e.target.tagName === 'BUTTON') {
+        createRipple(e);
+      }
+    });
+
+    // Add enter key support for input
+    document.getElementById('todo-input').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        addTodo();
+      }
+    });
 function saveTodo(index) {
     const id = todos[index].id;
     const newText = document.querySelectorAll('.edit-input')[index].value;
